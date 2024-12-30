@@ -5,19 +5,16 @@ Welcome to the official documentation for **Lemon**, your go-to platform for str
 ---
 
 ## Table of Contents
-1. [Use Cases](#use-cases)
-   - [Simple](#simple)
-   - [Intermediate](#intermediate)
-   - [Advanced](#advanced)
-2. [API Integration](#api-integration)
-   - [Key Features](#key-features)
-   - [Authorization](#authorization)
-   - [Example Request](#example-request)
-3. [AI Integration](#ai-integration)
-   - [OpenAI](#openai)
-   - [Anthropic Claude](#anthropic-claude)
-   - [Google AI](#google-ai)
-   - [IBM Watson](#ibm-watson)
+1. [ Simple Use Case](#simple)
+2. [Intermediate](#intermediate)
+   - [API Integration](#api-integration)
+       - [Key Features](#key-features)
+       - [Authorization](#authorization)
+       - [Example Request](#example-request)
+3. [Advanced](#advanced)
+    - [AI Integration](#ai-integration)
+       - [OpenAI](#openai)
+       - [Others](#others)
 
 ---
 
@@ -90,7 +87,7 @@ For more details about available routes, refer to the API documentation at [Lemo
 
 ### Advanced
 
-#### Integrating AI
+#### AI Integration
 Combine Lemon with AI technologies for enhanced personalization and efficiency. Below are code examples using OpenAI, Anthropic Claude, Google AI, and IBM Watson.
 
 #### AI Integration Examples
@@ -145,57 +142,6 @@ print(result)
 ```
 </details>
 
-<details>
-<summary>Anthropic Claude</summary>
-
-##### JavaScript Code
-```javascript
-const axios = require('axios');
-
-async function generateAndSendEmail(anthropicApiKey, lemonApiKey, userData) {
-    const anthropicResponse = await axios.post(
-        'https://api.anthropic.com/v1/complete',
-        {
-            prompt: `Human: Write an email to ${userData.name} about their recent activity: ${userData.activity}\n\nAssistant:`,
-            model: "claude-v1",
-            max_tokens_to_sample: 200,
-            stop_sequences: ["\n\nHuman:"]
-        },
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                'X-API-Key': anthropicApiKey
-            }
-        }
-    );
-
-    const emailContent = anthropicResponse.data.completion.trim();
-
-    const lemonResponse = await axios.post(
-        'https://app.xn--lemn-sqa.com/api/transactional/send',
-        {
-            fromname: "Your SaaS",
-            fromemail: "noreply@yoursaas.com",
-            to: userData.email,
-            subject: "Your Activity Update",
-            body: `<html><body>${emailContent}</body></html>`
-        },
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Auth-APIKey': lemonApiKey
-            }
-        }
-    );
-
-    return lemonResponse.data;
-}
+#### Others 
+For more AI integrations, refer to the relevant  [AI Integration with Lemon](https://lemon.email/introduction/integration-with-ai-services-advanced/).
 ```
-</details>
-
-For more integrations, refer to the relevant AI SDK documentation or Lemon's API specifications.
-
----
-
-Explore Lemon’s capabilities further and tailor them to your business needs for effective and streamlined communication management.
-
