@@ -14,7 +14,7 @@ Welcome to the official documentation for **Lemon**, your go-to platform for str
 3. [Advanced](#advanced)
     - [AI Integration](#ai-integration)
        - [OpenAI](#openai)
-       - [Others](#others)
+       - [Webhooks](#webhooks)
 
 ---
 
@@ -90,7 +90,7 @@ For more details about available routes, refer to the API documentation at [Lemo
 #### AI Integration
 Combine Lemon with AI technologies for enhanced personalization and efficiency. Below are code examples using OpenAI, Anthropic Claude, Google AI, and IBM Watson.
 
-#### AI Integration Examples
+######  Examples
 
 <details>
 <summary>OpenAI</summary>
@@ -142,6 +142,100 @@ print(result)
 ```
 </details>
 
-#### Others 
+
 For more AI integrations, refer to the relevant  [AI Integration with Lemon](https://lemon.email/introduction/integration-with-ai-services-advanced/).
-```
+
+
+
+#### Webhooks
+
+Lemon's webhook system allows you to receive real-time event notifications to trigger actions in your application. For example, you can process user activity events like a completed workout and send a personalized email using the transactional email API.
+
+<details>
+  <summary>Python Webhook Example</summary>
+  
+  ```python
+  from flask import Flask, request, jsonify
+  import requests
+
+  app = Flask(__name__)
+
+  @app.route('/webhook/user-activity', methods=['POST'])
+  def user_activity_webhook():
+      data = request.json
+
+      if data['activity_type'] == 'workout_completed':
+          response = requests.post(
+              'https://app.xn--lemn-sqa.com/api/transactional/send',
+              headers={
+                  'Content-Type': 'application/json',
+                  'X-Auth-APIKey': 'your_lemon_api_key'
+              },
+              json={
+                  "fromname": "FitnessSaaS",
+                  "fromemail": "noreply@fitnesssaas.com",
+                  "to": data['user_email'],
+                  "subject": "Great job on your workout!",
+                  "body": f"<html><body>You completed a {data['workout_type']} workout. Keep it up!</body></html>"
+              }
+          )
+
+          if response.status_code == 200:
+              return jsonify({"status": "success", "message": "Email sent"}), 200
+          else:
+              return jsonify({"status": "error", "message": "Failed to send email"}), 500
+
+      return jsonify({"status": "success", "message": "Webhook received"}), 200
+
+  if __name__ == '__main__':
+      app.run(port=5000)
+  ```
+</details>
+
+<details>
+  <summary>Node.js Webhook Example</summary>
+
+  ```javascript
+  const express = require('express');
+  const axios = require('axios');
+  const app = express();
+
+  app.use(express.json());
+
+  app.post('/webhook/user-activity', async (req, res) => {
+      const data = req.body;
+
+      if (data.activity_type === 'workout_completed') {
+          try {
+              const response = await axios.post('https://app.xn--lemn-sqa.com/api/transactional/send', {
+                  fromname: "FitnessSaaS",
+                  fromemail: "noreply@fitnesssaas.com",
+                  to: data.user_email,
+                  subject: "Great job on your workout!",
+                  body: `<html><body>You completed a ${data.workout_type} workout. Keep it up!</body></html>`
+              }, {
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-Auth-APIKey': 'your_lemon_api_key'
+                  }
+              });
+              
+              if (response.status === 200) {
+                  res.json({ status: "success", message: "Email sent" });
+              } else {
+                  res.status(500).json({ status: "error", message: "Failed to send email" });
+              }
+          } catch (error) {
+              console.error('Error sending email:', error);
+              res.status(500).json({ status: "error", message: "Failed to send email" });
+          }
+      } else {
+          res.json({ status: "success", message: "Webhook received" });
+      }
+  });
+
+  app.listen(5000, () => console.log('Server running on port 5000'));
+  ```
+</details>
+
+For more advanced examples and detailed information, refer to the [Lemon Webhook Examples](https://lemon.email/introduction/webhook-examples-advanced).
