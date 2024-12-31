@@ -1,4 +1,3 @@
-
 # Lemon Documentation
 
 Welcome to the official documentation for **Lemon**, your go-to platform for streamlined communication and contact management. This guide covers use cases, API integration, and advanced functionalities like AI-driven messaging.
@@ -6,7 +5,7 @@ Welcome to the official documentation for **Lemon**, your go-to platform for str
 ---
 
 ## Table of Contents
-1. [ Simple Use Case](#simple)
+1. [ Simple](#simple)
 2. [Intermediate](#intermediate)
    - [API Integration](#api-integration)
        - [Key Features](#key-features)
@@ -56,17 +55,17 @@ Welcome to the official documentation for **Lemon**, your go-to platform for str
 
 ### Intermediate
 
-#### API Integration
+##### API Integration
 Lemon's RESTful API provides developers full control over messaging and contact management.
 
-#### Key Features
+##### Key Features
 - Create and manage contact lists, suppression lists, and broadcasts.
 - Send transactional emails and tag/untag contacts dynamically.
 
-#### Authorization
+##### Authorization
 Include your API key in the `X-Auth-APIKey` header. Retrieve your API key from the **Integrate > API & SMTP** section in the Lemon UI.
 
-#### Example Request
+###### Example Request
 ```http
 POST /transactional/send HTTP/1.1
 Host: app.xn--lemn-sqa.com
@@ -88,7 +87,7 @@ For more details about available routes, refer to the API documentation at [Lemo
 
 ### Advanced
 
-#### AI Integration
+##### AI Integration
 Combine Lemon with AI technologies for enhanced personalization and efficiency. Below are code examples using OpenAI, Anthropic Claude, Google AI, and IBM Watson.
 
 ######  Examples
@@ -148,7 +147,7 @@ For more AI integrations, refer to the relevant  [AI Integration with Lemon](htt
 
 
 
-#### Webhooks
+##### Webhooks
 
 Lemon's webhook system allows you to receive real-time event notifications to trigger actions in your application. For example, you can process user activity events like a completed workout and send a personalized email using the transactional email API.
 
