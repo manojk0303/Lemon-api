@@ -1,10 +1,21 @@
-# Ignore node_modules directory
-**/node_modules/
+# Ignore node_modules
+node_modules/
 
-# Ignore .env file
-**/.env
-# Ignore node_modules directory in all subdirectories
-**/**/node_modules/
+# Ignore environment files
+.env
+.env.*
+*.env
 
-# Ignore .env file in all subdirectories
-**/**/.env
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore lock files (optional, if using a specific package manager)
+package-lock.json
+yarn.lock
