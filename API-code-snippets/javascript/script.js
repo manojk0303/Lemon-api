@@ -4,22 +4,26 @@ require('dotenv').config(); // Load environment variables
 //Import API key from environment variables
 const apiKey = process.env.API_KEY;
 
-axios.defaults.baseURL = 'https://app.xn--lemn-sqa.com/api';
-async function deleteWebhook(webhookId) {
-    const url = `/webhooks/${webhookId}`;
+axios.defaults.baseURL = 'https://app.xn--lemn-sqa.com/';
+
+async function createSuppressionList(listName) {
+    const url = '/api/supplists';
+    const data = {
+        name: listName
+    };
 
     try {
-        const response = await axios.delete(url, {
+        const response = await axios.post(url, data, {
             headers: {
+                'Content-Type': 'application/json',
                 'X-Auth-APIKey': apiKey
             }
         });
-
-        console.log('Webhook Deleted:', response.data);
+        console.log('Suppression List Created:', response.data);
     } catch (error) {
-        console.error('Error deleting webhook:', error.response ? error.response.data : error.message);
+        console.error('Error creating suppression list:', error.response ? error.response.data : error.message);
     }
 }
 
 // Example usage
-deleteWebhook('webhookId');
+createSuppressionList('My Suppression List');
