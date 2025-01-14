@@ -4,15 +4,20 @@
     "description": "A library for interacting with the Lemn API",
     "main": "src/index.js",
     "scripts": {
-      "test": "jest"
+        "test": "jest"
     },
-    "keywords": ["api", "lemn", "email"],
+    "keywords": [
+        "api",
+        "lemn",
+        "email"
+    ],
     "author": "Manojkumar K <manojk030303@gmail.com>",
     "license": "MIT",
     "dependencies": {
-      "node-fetch": "^2.6.1"
+        "form-data": "^4.0.1",
+        "node-fetch": "^2.6.1"
     },
     "devDependencies": {
-      "jest": "^27.0.6"
+        "jest": "^27.0.6"
     }
-  }
+}

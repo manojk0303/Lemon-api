@@ -1,29 +1,64 @@
-const axios = require('axios');
-require('dotenv').config(); // Load environment variables
+require('dotenv').config();
+const fs = require('fs');
+const FormData = require('form-data');
+const fetch = require('node-fetch'); // Required for Node.js < 18
 
-//Import API key from environment variables
 const apiKey = process.env.API_KEY;
+const baseURL = 'https://app.xn--lemn-sqa.com/api';
+// async function uploadFile(file,filename) {
+//       const formData = new FormData();
+//       formData.append('image', file,{
 
-axios.defaults.baseURL = 'https://app.xn--lemn-sqa.com/';
+//       });
+  
+//       const headers = formData.getHeaders();
+//       // Remove the default Content-Type header
+//       return await this.apiClient.request('POST', '/imageupload', formData, {
+//         headers: headers,
+//         skipStringify: true,
+//         removeContentType: true  // Add this flag to remove default Content-Type
+//       });
+//     }
 
-async function createSuppressionList(listName) {
-    const url = '/api/supplists';
-    const data = {
-        name: listName
-    };
+async function uploadImage(filePath) {
+    const url = `${baseURL}/imageupload`;
+    
+    // Create FormData and append file
+    const formData = new FormData();
+    const fileStream = fs.createReadStream(filePath);
+    formData.append('file', fileStream);
 
     try {
-        const response = await axios.post(url, data, {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
             headers: {
-                'Content-Type': 'application/json',
-                'X-Auth-APIKey': apiKey
+                'X-Auth-APIKey': apiKey,
+                // Let FormData set its own boundary
+                ...formData.getHeaders()
             }
         });
-        console.log('Suppression List Created:', response.data);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Server response:', errorText);
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+        }
+
+        const data = await response.json();
+        console.log('Image uploaded successfully:', data);
+        return data;
     } catch (error) {
-        console.error('Error creating suppression list:', error.response ? error.response.data : error.message);
+        console.error('Error uploading image:', error.message);
+        throw error;
     }
 }
 
-// Example usage
-createSuppressionList('My Suppression List');
+// Usage with better error handling
+uploadImage('./download.jpeg')
+    .then(response => {
+        console.log('Upload complete:', response);
+    })
+    .catch(error => {
+        console.error('Upload failed:', error);
+    });

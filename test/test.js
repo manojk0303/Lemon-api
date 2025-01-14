@@ -1,5 +1,5 @@
 const fs = require('fs');
-const LemnAPI = require('./index'); // Adjust the path based on your file structure
+const LemnAPI = require('lemn-api'); // Adjust the path based on your file structure
 
 async function testImageUpload(filePath) {
     const apiKey = '';
@@ -9,4 +9,4 @@ async function testImageUpload(filePath) {
 }
 
 // Run the test
-testImageUpload('./image.jpg').catch(console.error);
+testImageUpload('./download.jpeg').catch(console.error);

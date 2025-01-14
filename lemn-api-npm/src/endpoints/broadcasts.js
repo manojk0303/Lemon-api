@@ -1,25 +1,35 @@
+const FormData = require('form-data'); // Use form-data package in Node.js
+const fetch = require('node-fetch'); // Required for Node.js < 18
+
 class BroadcastsAPI {
-    constructor(apiClient) {
+    constructor(apiClient,baseUrl,apiKey) {
       this.apiClient = apiClient;
+      this.baseUrl = baseUrl;
+      this.apiKey = apiKey;
     }
   
     // Get available postal routes - done
     async getUserRoutes() {
       return await this.apiClient.request('GET', '/userroutes');
     }
-  
-    // Upload an image
-    async uploadImage(file) {
+
+    async uploadFile(file) {
       const formData = new FormData();
       formData.append('file', file);
-      
-      return await this.apiClient.request('POST', '/imageupload', formData, {
+      const url = this.baseUrl+"/imageupload";
+      // console.log("url",url);
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+            'X-Auth-APIKey': this.apiKey,
+            ...formData.getHeaders()
+        }   
+    });
+    return response.json();
     }
   
+    
     // Create a new broadcast - done
     async create(broadcastData) {
       return await this.apiClient.request('POST', '/broadcasts', broadcastData);

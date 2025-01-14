@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "lemn-api": "file:../lemn-api-npm/lemn-api-1.0.0.tgz"
+  }
+}

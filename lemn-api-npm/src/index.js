@@ -15,7 +15,7 @@ class LemnAPI {
     this.lists = new Lists(this);
     this.supplists = new Supplists(this);
     this.exclusion = new Exclusion(this);
-    this.broadcasts = new Broadcasts(this);
+    this.broadcasts = new Broadcasts(this,this.config.baseUrl,this.config.apiKey);
     this.exports = new Exports(this);
     this.transactional = new Transactional(this);
     this.webhooks = new Webhooks(this);
@@ -32,19 +32,20 @@ class LemnAPI {
       body: data ? JSON.stringify(data) : undefined,
       ...customOptions
     };
-    console.log('url:',url);
+    // console.log('url:',url);
     // console.log('options:',options);
     try {
       const response = await fetch(url, options);
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'API request failed');
+          const error = await response.json();
+          throw error;
       }
       return await response.json();
-    } catch (error) {
+  } catch (error) {
       throw error;
-    }
   }
+  }
+
 }
 
 module.exports = LemnAPI;
